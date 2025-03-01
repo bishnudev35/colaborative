@@ -119,3 +119,97 @@
     @apply bg-background text-foreground;
   }
 }
+.gradient-button-bg {
+  background: radial-gradient(
+    circle at top,
+    #a5b4fc,
+    #3730a3
+  ); /* violet 300 -> 800 */
+}
+
+.gradient-button {
+  background: radial-gradient(
+    circle at bottom,
+    #312e81 0%,
+    hsl(0 0% 3.9%) 100%
+  ); /* violet 900 -> bg */
+}
+
+.gradient-button-bg > div:hover {
+  background: radial-gradient(
+    circle at bottom,
+    #312e81 0%,
+    hsl(0 0% 3.9%) 150%
+  ); /* violet 900 -> bg */
+}
+
+.gradient-project-card-bg {
+  background: radial-gradient(
+    circle at bottom right,
+    #a5b4fc -15%,
+    #3730a3 25%,
+    hsl(0 0% 3.9%) 50%
+  ); /* violet 300 -> 800 */
+}
+
+.gradient-project-card {
+  background: radial-gradient(
+    circle at bottom right,
+    #312e81 -50%,
+    hsl(0 0% 3.9%) 50%
+  ); /* violet 900 -> bg */
+}
+
+.gradient-project-card-bg > div:hover {
+  background: radial-gradient(
+    circle at bottom right,
+    #312e81 -50%,
+    hsl(0 0% 3.9%) 60%
+  ); /* violet 900 -> bg */
+}
+
+.inline-decoration::after {
+  content: "Generate G";
+  color: #525252;
+  border: 1px solid #525252;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin-left: 56px;
+}
+
+.yRemoteSelection {
+  opacity: 0.5;
+  background-color: var(--user-color);
+  margin-right: -1px;
+}
+
+.yRemoteSelectionHead {
+  position: absolute;
+  box-sizing: border-box;
+  height: 100%;
+  border-left: 2px solid var(--user-color);
+}
+
+.yRemoteSelectionHead::after {
+  position: absolute;
+  top: -1.4rem;
+  left: -2px;
+  padding: 2px 6px;
+  background: var(--user-color);
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  border-bottom-left-radius: 0;
+  line-height: normal;
+  white-space: nowrap;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1000;
+}
+
+.tab-scroll::-webkit-scrollbar {
+  display: none;
+}
