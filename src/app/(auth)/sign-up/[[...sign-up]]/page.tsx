@@ -8,9 +8,16 @@ export default function Page(){
             baseTheme:dark,
             elements:{
                 footerActionLink:{
-                    color: "#A3AA3",
+                    color: "#fff",
                 },
-            },
-        }}/>
+                rootBox: {
+                    width: "100%",
+                    maxWidth: "clamp(380px, 90vw, 420px)"
+                  },
+                  card: {
+                    marginTop: "2rem"
+                  }
+                },
+              }}/>
     );
 }
