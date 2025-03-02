@@ -5,6 +5,7 @@ import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Link from "next/link";
+import DashboardNavbarSearch from "./search";
 export default function Navbar(){
     return(
         <div className="h-14 px-2 w-full border-b border-border flex items-center justify-between">
@@ -19,17 +20,18 @@ export default function Navbar(){
                        <Image src={Logo} alt="logo" width={36} height={36}/>
 
                      </Link >
-                     <div className="flex items-center text-sm font-medium ">
-                        My React Project{" "}
-                        <div className="h-7 w-7 flex ml-1 items-center justify-center
-                         transition-colors bg-transparent hover:bg-muted-foreground/25 rounded-md">
-                            <Pencil className="w-4 h-4"/>
-                        </div>
+                     <div className="text-sm font-medium flex items-start">
+                     VertualBox</div>
                      </div>
-            </div>
-            <UserButton appearance={{
-            baseTheme:dark,
-            }} afterSignOutUrl="/"/>
+                   
+                   <div className="flex items-center space-x-4">
+                    <DashboardNavbarSearch/>
+                   <UserButton appearance={{
+                           baseTheme:dark,
+                        }} afterSignOutUrl="/"/>
+                   </div>
+          
+           
         </div>
     );
 }

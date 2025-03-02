@@ -1,8 +1,9 @@
 "use client"
-import { Code2, FolderDot, HelpCircle, Plus, Settings, User } from "lucide-react";
+import { Clock, Code2, FolderDot, Globe, HelpCircle, Plus, Settings, User } from "lucide-react";
 import CustomButton from "../ui/customButton";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import ProjectCard from "./projectCard";
 
 type TScreen="project" | "shared"|"settings"|"search";
 
@@ -39,9 +40,8 @@ const  activeScreen=(s:TScreen)=>{
                     <Settings className="w-4 h-4 mr-2"/>
                  Settings
                 </Button>
-            </div>
-            <div className="flex flex-col">
-            <Button variant={"ghost"} className=" justify-start font-normal text-muted-foreground">
+
+                <Button variant={"ghost"} className=" justify-start font-normal text-muted-foreground">
                 <Code2 className="w-4 h-4 mr-2"/>
                 Github repo
             </Button>
@@ -51,13 +51,70 @@ const  activeScreen=(s:TScreen)=>{
             </Button>
 
             </div>
+            <div className="flex flex-col">
+          
+            </div>
            
         </div>
-        <div className="gorw flex flex-col items-start p-4">
-                <h1 className="text-2xl font-medium text-center">
-                    a real time colaborative code editor,let's start colaborate
-                </h1>
+        <div className="flex-1 p-8 overflow-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <ProjectCard>
+            <div className="text-lg font-medium mb-2">React Project 1</div>
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Globe className="w-4 h-4 mr-2" />
+                Public
+              </div>
+              <div className="flex items-center">
+                <Clock className="w-4 h-4 mr-2" />
+                3d ago
+              </div>
             </div>
+          </ProjectCard>
+
+          <ProjectCard>
+            <div className="text-lg font-medium mb-2">Next.js Dashboard</div>
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Globe className="w-4 h-4 mr-2" />
+                Public
+              </div>
+              <div className="flex items-center">
+                <Clock className="w-4 h-4 mr-2" />
+                1d ago
+              </div>
+            </div>
+          </ProjectCard>
+
+          <ProjectCard>
+            <div className="text-lg font-medium mb-2">E-commerce API</div>
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Globe className="w-4 h-4 mr-2" />
+                Private
+              </div>
+              <div className="flex items-center">
+                <Clock className="w-4 h-4 mr-2" />
+                5d ago
+              </div>
+            </div>
+          </ProjectCard>
+
+          <ProjectCard>
+            <div className="text-lg font-medium mb-2">UI Component Library</div>
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Globe className="w-4 h-4 mr-2" />
+                Public
+              </div>
+              <div className="flex items-center">
+                <Clock className="w-4 h-4 mr-2" />
+                2w ago
+              </div>
+            </div>
+          </ProjectCard>
+        </div>
+      </div>
         </div>
     );
 }
