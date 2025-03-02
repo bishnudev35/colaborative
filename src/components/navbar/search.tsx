@@ -14,9 +14,7 @@ export default function DashboardNavbarSearch(){
             if(search){
                 router.push(`/dashboard?q=${search}`);
             }
-            else{
-                router.push(`/dashboard`);
-            }
+        
         },300);
         return()=>clearTimeout(delayDebounceFn)
     },[search]);
