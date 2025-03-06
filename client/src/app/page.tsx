@@ -17,7 +17,7 @@ export default async function Home() {
         {/* Animated Hero Section */}
         <div className="max-w-4xl space-y-6 animate-fade-in-up">
           <h1 className="text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
-            Collaborate in Real-Time
+          Project G-17
           </h1>
           
           <div className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground">

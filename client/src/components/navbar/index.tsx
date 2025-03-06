@@ -21,7 +21,7 @@ export default function Navbar(){
 
                      </Link >
                      <div className="text-sm font-medium flex items-start">
-                     VertualBox</div>
+                     Project G-17</div>
                      </div>
                    
                    <div className="flex items-center space-x-4">
