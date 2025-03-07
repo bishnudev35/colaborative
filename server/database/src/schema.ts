@@ -1,7 +1,7 @@
 import { createId } from "@paralleldrive/cuid2";
-import { name } from "drizzle-orm";
+import { name, relations } from "drizzle-orm";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
-
+import { Relation } from "drizzle-orm";
 
 export const user=sqliteTable('user',{
     id:text("id")
@@ -11,7 +11,10 @@ export const user=sqliteTable('user',{
     name:text("name").notNull(),
     email:text("email").notNull(),
 });
-
+export type User=typeof user.$inferSelect
+export const userRelation=relations(user,({many})=>({
+    virtualbox:many(virtualbox),
+}));
 export const virtualbox=sqliteTable("virtualbox",{
     id:text("id")
     .$defaultFn(()=>createId())
@@ -19,7 +22,16 @@ export const virtualbox=sqliteTable("virtualbox",{
     .unique(),
     name:text("name").notNull(),
     type:text("text",{enum:["react","node"]}).notNull(),
+    bucket:text("bucket"),
     userId:text("user_id")
     .notNull()
     .references(()=>user.id),
-})
+});
+
+export type virtualbox=typeof virtualbox.$inferSelect
+export const virtualBoxRelation=relations(virtualbox,({one})=>({
+    author:one(user,{
+        fields:[virtualbox.userId],
+        references:[user.id],
+    }),
+}));

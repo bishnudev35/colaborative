@@ -27,6 +27,8 @@
     }
   ]
 
+  // npx wrangler d1 execute d1-virtualbox --remote --file=./drizzle/0001_funny_machine_man.sql
+
   /**
    * Environment Variables
    * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
