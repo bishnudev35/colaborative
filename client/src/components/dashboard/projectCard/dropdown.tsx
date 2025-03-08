@@ -8,7 +8,11 @@ import { Ellipsis, LockIcon, Trash2 } from "lucide-react";
 export default function ProjectCardDropdown({ virtualbox }: { virtualbox: Virtualbox }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
+      <DropdownMenuTrigger 
+      onClick={(e)=>{
+        e.stopPropagation();
+        e.preventDefault();
+      }}
         className="h-6 w-6 flex justify-center items-center transition-colors bg-transparent hover:bg-muted/50 rounded-md"
       >
         <Ellipsis className="h-4 w-4 text-muted-foreground" />
