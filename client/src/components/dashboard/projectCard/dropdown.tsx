@@ -2,7 +2,7 @@
 
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Virtualbox } from "@/lib/types";
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Ellipsis, LockIcon, Trash2 } from "lucide-react";
 
 export default function ProjectCardDropdown({ virtualbox }: { virtualbox: Virtualbox }) {
