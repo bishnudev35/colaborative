@@ -11,6 +11,7 @@ import DashboardProjects from "./projects";
 type TScreen="project" | "shared"|"settings"|"search";
 
 export default function Dashboard( {virtualboxes}:{virtualboxes:Virtualbox[]}){
+    console.log("bishnu",virtualboxes);
 const [screen, setScreen]=useState<TScreen>("project");
 const  activeScreen=(s:TScreen)=>{
     if(screen===s)return "justify-start";

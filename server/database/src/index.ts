@@ -25,7 +25,13 @@ export default {
 
           if (params.has("id")) {
             const id = params.get("id") as string;
-            const res = await db.select().from(user).where(eq(user.id, id)).get();
+            const res = await db.query.user.findFirst({
+              where: (user, { eq }) => eq(user.id, id),
+              with: {
+                virtualbox: true
+                
+              },
+            });
             return json(res ?? {});
           } else {
             const res = await db.select().from(user).all();
@@ -55,6 +61,7 @@ export default {
               virtualbox: true,
             },
           });
+          console.log("res", res);
           return json(res ?? {});
         } else {
           return new Response("Method Not Allowed", { status: 405 });

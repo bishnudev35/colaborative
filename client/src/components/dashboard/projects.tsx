@@ -1,3 +1,4 @@
+
 import { Virtualbox } from "@/lib/types";
 import ProjectCard from "./projectCard";
 import ProjectCardDropdown from "./projectCard/dropdown";
@@ -9,6 +10,7 @@ export default function DashboardProjects({
 }: {
   virtualboxes: Virtualbox[];
 }) {
+  console.log("bal bichi",virtualboxes);
   return (
     <div className="grow p-4 flex flex-col">
           <div className="text-xl font-medium mb-8">My Project</div>
