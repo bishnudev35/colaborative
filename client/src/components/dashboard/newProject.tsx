@@ -52,7 +52,7 @@ export default function NewProjectModel({
         visibility: "public"
     }
 });
-
+const buttonName="Create Project";
    return(
    <Dialog open={open} onOpenChange={setOpen}>
     <DialogContent>
@@ -127,8 +127,8 @@ export default function NewProjectModel({
             </FormItem>
         )}>
             </FormField>
-           <CustomButton type="submit" className="w-full">
-            submit
+           <CustomButton type="submit"  className="w-full">
+           Creat Project
            </CustomButton>
         </form>
         </Form>

@@ -15,7 +15,7 @@ export default function Dashboard( {virtualboxes}:{virtualboxes:Virtualbox[]}){
     console.log("bishnu",virtualboxes);
 const [screen, setScreen]=useState<TScreen>("project");
 const [newProjectModelOpen, setnewProjectModelOpen]=useState(false);
-
+const cName="New Project";
 const  activeScreen=(s:TScreen)=>{
     if(screen===s)return "justify-start";
     else return "justify-start font-normal text-muted-foreground";
@@ -26,9 +26,8 @@ const  activeScreen=(s:TScreen)=>{
          <div className="flex grow w-full">
         <div className="w-56 border-r border-border p-4 justify-between flex flex-col">
             <div className="flex flex-col">
-                <CustomButton className="mb-4" onClick={()=>setnewProjectModelOpen(true)}>
-                    <Plus className="h-4 w-4"/>
-    
+                <CustomButton  className="mb-4" onClick={()=>setnewProjectModelOpen(true)}>
+                New Project
                 </CustomButton>
                 <Button variant={"ghost"}
                  onClick={()=>{setScreen("project")}}
