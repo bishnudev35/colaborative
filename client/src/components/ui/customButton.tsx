@@ -5,18 +5,20 @@ import { cn } from "@/lib/utils"
 const CustomButton =({
     children,
     className,
-    onClick
+    onClick,
+    type,
 }:{
     children:React.ReactNode
     className?:string
     onClick?:()=>void
+    type?:"button"|"submit"|"reset"
 
 
 })=>{
     return (
         <button
         onClick={onClick}
-        
+        type={type ?? "button"}
         className={cn(
           className,
           "gradient-button-bg p-[1px] inline-flex group rounded-md text-sm font-medium focus-visible:ring-offset-1 focus-visible:ring-offset-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"

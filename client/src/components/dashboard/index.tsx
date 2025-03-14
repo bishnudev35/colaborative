@@ -7,21 +7,26 @@ import { useState } from "react";
 import { Virtualbox } from "@/lib/types";
 import DashboardSharedWithMe from "./shared";
 import DashboardProjects from "./projects";
+import NewProjectModel from "./newProject";
 
 type TScreen="project" | "shared"|"settings"|"search";
 
 export default function Dashboard( {virtualboxes}:{virtualboxes:Virtualbox[]}){
     console.log("bishnu",virtualboxes);
 const [screen, setScreen]=useState<TScreen>("project");
+const [newProjectModelOpen, setnewProjectModelOpen]=useState(false);
+
 const  activeScreen=(s:TScreen)=>{
     if(screen===s)return "justify-start";
     else return "justify-start font-normal text-muted-foreground";
 }
     return(
-        <div className="flex grow w-full">
+        <>
+        < NewProjectModel open={newProjectModelOpen} setOpen={setnewProjectModelOpen}/>
+         <div className="flex grow w-full">
         <div className="w-56 border-r border-border p-4 justify-between flex flex-col">
             <div className="flex flex-col">
-                <CustomButton className="mb-4">
+                <CustomButton className="mb-4" onClick={()=>setnewProjectModelOpen(true)}>
                     <Plus className="h-4 w-4"/>
     
                 </CustomButton>
@@ -66,5 +71,7 @@ const  activeScreen=(s:TScreen)=>{
   :screen==="settings"?null:null}
       
         </div>
+        </>
+       
     );
 }
