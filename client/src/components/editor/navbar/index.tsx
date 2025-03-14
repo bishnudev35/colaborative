@@ -1,15 +1,22 @@
-import { ChevronLeftIcon, Clock, Pencil } from "lucide-react";
-import { Button } from "../ui/button";
-import Image from "next/image";
+// import { ChevronLeftIcon, Clock, Pencil } from "lucide-react";
+// import { Button } from "../ui/button";
+// import Image from "next/image";
 
-import { dark } from "@clerk/themes";
-import Link from "next/link";
-import DashboardNavbarSearch from "./search";
-import UserButton from "../ui/userButton";
-
-// Import SVG correctly
-import Logo from "@/assets/logo.svg"; // Ensure this is handled properly
+import UserButton from "@/components/ui/userButton";
 import { User } from "@/lib/types";
+import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/assets/logo.svg";
+
+// import { dark } from "@clerk/themes";
+// import Link from "next/link";
+// import DashboardNavbarSearch from "./search";
+// // import UserButton from "../ui/userButton";
+
+// // Import SVG correctly
+//  // Ensure this is handled properly
+// import { User } from "@/lib/types";
+// import Link from "next/link";
 
 export default function Navbar({ userData }: { userData: User }) {
   return (
@@ -28,11 +35,11 @@ export default function Navbar({ userData }: { userData: User }) {
           {/* Ensure Image is used correctly */}
           <Image src={Logo} alt="logo" width={36} height={36} priority />
         </Link>
-        <div className="text-sm font-medium flex items-start">Project G-17</div>
+        <div className="text-sm font-medium flex items-start">My React Project</div>
       </div>
 
       <div className="flex items-center space-x-4">
-        <DashboardNavbarSearch />
+        {/* <DashboardNavbarSearch /> */}
         <UserButton userData={userData} />
       </div>
     </div>

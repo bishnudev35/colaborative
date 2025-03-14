@@ -7,6 +7,7 @@ import { useRef } from "react";
 import monaco, { editor } from "monaco-editor";
 import { OnMount } from "@monaco-editor/react";
 import Sidebar from "./sidebar";
+import Tab from "../ui/tab";
 
 
 
@@ -26,12 +27,9 @@ const editorRef=useRef<null | monaco.editor.IStandaloneCodeEditor>(null);
                className=" flex flex-col p-2"
                >
                 <div className="h-10 w-full flex gap-2">
-                    <Button variant={"secondary"} size={"sm"} className="min-w-20 justify-between">
-                    index.html <X className="w-3 h-3"/>
-                    </Button>
-                    <Button variant={"secondary"} size={"sm"} className="min-w-20 justify-between">
-                    style.css <X className="w-3 h-3"/>
-                    </Button>
+                   <Tab selected>index.html</Tab>
+                   <Tab>style.css</Tab>
+                   
                 </div>
                 <div className="grow w-full overflow-hidden rounded-lg">
                     <Editor height={"100%"} defaultLanguage="typescript" theme="vs-dark"
@@ -67,9 +65,9 @@ const editorRef=useRef<null | monaco.editor.IStandaloneCodeEditor>(null);
                     <ResizableHandle/>
                     <ResizablePanel defaultSize={50} minSize={20} className="p-2 flex flex-col">
                     <div className="h-10 w-full flex gap-2">
-                    <Button variant={"secondary"} size={"sm"} className="min-w-20 justify-between">
-                   Node<X className="w-3 h-3"/>
-                    </Button>
+                   <Tab selected>Node</Tab>
+                    <Tab>console</Tab>
+                   
                    
                 </div>
                 <div className="w-full grow rounded-lg bg-foreground">

@@ -4,7 +4,7 @@ import { User } from "@/lib/types";
 import { LogOut, Pencil } from "lucide-react";
 
 
-export default function DashboardUserButton({userData}:{userData:User}){
+export default function UserButton({userData}:{userData:User}){
 return(
     <DropdownMenu>
         <DropdownMenuTrigger>
