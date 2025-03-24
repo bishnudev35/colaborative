@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, name } from "drizzle-orm";
 import { json } from "itty-router-extras";
 import { user } from "./schema";
 import { drizzle } from "drizzle-orm/d1";
@@ -8,17 +8,44 @@ import { D1Database } from "@cloudflare/workers-types";
 
 export interface Env {
   DB: D1Database;
+  STORAGE: any; // Correct type for service binding
 }
+
 
 export default {
   async fetch(request, env, ctx): Promise<Response> {
+    const success = new Response("success", { status: 200 });
+    const notFound = new Response("Not Found", { status: 404 });
+    const methodNotAllowed = new Response("Method Not Allowed", { status: 405 });
     const url = new URL(request.url);
     const path = url.pathname;
     const method = request.method;
 
     const db = drizzle(env.DB, { schema });
 
-    if (path.startsWith("/api/user")) {
+    if(path==="/api/virtualbox/create" && method==="POST"){
+       const initSchema=z.object({
+        type:z.enum(["react","node"]),
+        name:z.string(),
+        userId:z.string()
+       })
+       const body=await request.json();
+       console.log("body",body)
+       const {type,name,userId}=initSchema.parse(body);
+       console.log("type",type)
+       const vb = await db.insert(schema.virtualbox).values({ type, name, userId }).returning().get();
+
+       console.log('vb',vb);
+       const initStorageRequest=new Request("https://storage.databse.workers.dev/api/init",{
+        method:"POST",
+        body:JSON.stringify({virtualboxId:vb.id,type}),
+        headers:{'Content-Type':'application/json'},
+
+       });
+       console.log("initStorage",initStorageRequest)
+       await env.STORAGE.fetch(initStorageRequest);
+         return success;
+    }else if (path.startsWith("/api/user")) {
       if (path === "/api/user") {
         if (method === "GET") {
           const params = url.searchParams;

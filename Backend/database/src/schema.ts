@@ -22,7 +22,7 @@ export const virtualbox=sqliteTable("virtualbox",{
     .unique(),
     name:text("name").notNull(),
     type:text("text",{enum:["react","node"]}).notNull(),
-    bucket:text("bucket"),
+   
     userId:text("user_id")
     .notNull()
     .references(()=>user.id),

@@ -6,6 +6,17 @@
   "observability": {
     "enabled": true
   },
+
+  "services": [{"binding": "STORAGE","service": "storage"}],
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "d1-virtualbox",
+      "database_id": "4ff6bcc1-0915-4f7f-a317-3236209c5f4b"
+    }
+  ]
+
   
   /**
    * Smart Placement
@@ -19,15 +30,8 @@
    * databases, object storage, AI inference, real-time communication and more.
    * https://developers.cloudflare.com/workers/runtime-apis/bindings/
    */
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "d1-virtualbox",
-      "database_id": "4ff6bcc1-0915-4f7f-a317-3236209c5f4b"
-    }
-  ]
-
-  // npx wrangler d1 execute d1-virtualbox --remote --file=./drizzle/0001_funny_machine_man.sql
+ 
+  // npx wrangler d1 execute d1-virtualbox --remote --file=./drizzle/0002_pink_expediter.sql
 
   /**
    * Environment Variables

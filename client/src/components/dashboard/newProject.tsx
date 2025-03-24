@@ -52,7 +52,12 @@ export default function NewProjectModel({
         visibility: "public"
     }
 });
-const buttonName="Create Project";
+
+
+function onSubmit(value:z.infer<typeof formSchema>){
+  const virtualbox={type:selected,...value};
+  
+}
    return(
    <Dialog open={open} onOpenChange={setOpen}>
     <DialogContent>
