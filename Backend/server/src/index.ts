@@ -27,6 +27,7 @@ io.use(async(socket,next)=>{
     const q=socket.handshake.query;
     console.log("middleware");
     console.log(q);
+
     
     const parsedQuery=handshakeSchema.safeParse(q);
 
@@ -36,9 +37,15 @@ io.use(async(socket,next)=>{
     }
     const {userId,virtualboxId}=parsedQuery.data;      
 
+    if(!q.userId || !q.virtualboxId){
+        return next(new Error("Invalid request"));
+    }        
+
+
 
 const dbUser=await fetch(`https://database.databse.workers.dev/api/user?id=${q.userId}`);
 const dbUserJSON=await dbUser.json();
+
 
 if(!dbUserJSON){
     return next(new Error("DB error invalid credentials"));
@@ -53,6 +60,11 @@ socket.data={
      type,
      userId,
     };
+
+
+if(!dbUserJSON ||!dbUserJSON.virtualboxId.includes(q.virtualboxId)){
+    return next(new Error("invalid credentials"));
+}
 
 next();
 }
