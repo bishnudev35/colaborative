@@ -143,32 +143,68 @@ export default {
           const prefix = `projects/${virtualboxId}/`;
           console.log('Searching with prefix:', prefix);
       
-          const listCommand = new ListObjectsV2Command({
-            Bucket: env.S3_BUCKET_NAME,
-            Prefix: prefix,
-            Delimiter: '/' // This helps distinguish between files and folders
-          });
+          // Function to fetch contents of a specific prefix (folder)
+          async function fetchFolderContents(folderPrefix) {
+            const listCommand = new ListObjectsV2Command({
+              Bucket: env.S3_BUCKET_NAME,
+              Prefix: folderPrefix,
+              Delimiter: '/' // This helps distinguish between files and folders
+            });
       
-          const listResult = await s3Client.send(listCommand);
-          
-          // Debug logging
-          console.log('Raw S3 List Result:', JSON.stringify(listResult, null, 2));
-      
-          // Improved formatting with folder/file distinction
-          const formattedResult = {
-            folders: listResult.CommonPrefixes?.map(prefix => prefix.Prefix) || [],
-            objects: listResult.Contents?.filter(item => 
-              item.Key !== prefix // Exclude the base prefix itself
+            const result = await s3Client.send(listCommand);
+            
+            // Format the direct files in this folder
+            const files = result.Contents?.filter(item => 
+              item.Key !== folderPrefix
             ).map(item => ({
-              key: item.Key?.replace(prefix, ''), // Remove prefix from key
+              key: item.Key.replace(folderPrefix, ''),
+              fullPath: item.Key,
               size: item.Size,
               etag: item.ETag?.replace(/"/g, ''),
               uploaded: item.LastModified
-            })) || [],
-            truncated: listResult.IsTruncated || false
+            })) || [];
+            
+            // Get subfolders
+            const subfolders = [];
+            
+            // Process each subfolder
+            if (result.CommonPrefixes && result.CommonPrefixes.length > 0) {
+              for (const subfolder of result.CommonPrefixes) {
+                const subfolderPath = subfolder.Prefix;
+                const subfolderName = subfolderPath.split('/').filter(Boolean).pop();
+                
+                // Recursively fetch contents of this subfolder
+                const subfolderContents = await fetchFolderContents(subfolderPath);
+                
+                subfolders.push({
+                  name: subfolderName,
+                  path: subfolderPath,
+                  files: subfolderContents.files,
+                  folders: subfolderContents.folders
+                });
+              }
+            }
+            
+            return {
+              files,
+              folders: subfolders,
+              truncated: result.IsTruncated || false
+            };
+          }
+      
+          // Start the recursive fetching from the root prefix
+          const folderStructure = await fetchFolderContents(prefix);
+          
+          // Final formatted result with recursive structure
+          const formattedResult = {
+            // Root level files
+            objects: folderStructure.files,
+            // Folders with their contents
+            folders: folderStructure.folders,
+            truncated: folderStructure.truncated
           };
       
-          console.log('Formatted Result:', JSON.stringify(formattedResult, null, 2));
+          console.log('Formatted Result with Nested Contents:', JSON.stringify(formattedResult, null, 2));
       
           return new Response(JSON.stringify(formattedResult), {
             status: 200,

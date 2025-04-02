@@ -1,9 +1,10 @@
 import CodeEditor from "@/components/editor";
 import Navbar from "@/components/editor/navbar";
-import { TFile, TFolder } from "@/components/editor/sidebar/types";
-import { R2File, User } from "@/lib/types";
+
+import {  User } from "@/lib/types";
+import { ApiResponse, TFile, TFolder } from "@/lib/types";
 import { currentUser } from "@clerk/nextjs/server";
-import { notFound, redirect } from "next/navigation";
+import {  redirect } from "next/navigation";
 import path from "path";
 
 
@@ -17,72 +18,118 @@ const getUserData=async(id:string)=>{
 const getVirtualboxFiles=async (id:string)=>{
   console.log("id",id)
   const virtualboxRes=await fetch(
-    `http://127.0.0.1:8787/api?virtualboxId=${id}`
+    `https://storage.databse.workers.dev/api?virtualboxId=${id}`
   );
-  
+  console.log("virtual respanse data",virtualboxRes)
   const virtualboxData=await virtualboxRes.json()
-  console.log("Virtualbox",virtualboxData)
-  if(virtualboxData.objects.size===0) return notFound()
-    const paths=virtualboxData.objects.map((obj:any)=>obj.key);
- console.log("paths",paths)
  
-  return processFiles(paths,id);
+ 
+  return processFiles(virtualboxData,id);
 
 }
-const processFiles = (paths: string[], id: string) => {
+// const processFiles = (paths: string[], id: string) => {
+//   const root: TFolder = { id: "/", type: "folder", name: "/", children: [] };
+  
+//   paths.forEach((path) => {
+//     const allParts = path.split("/").filter(part => part.trim() !== '');
+//     console.log("All Parts:", allParts);
+
+//     // Validate project ID
+  
+//     const parts = allParts; // Remove project ID from parts
+//     console.log("Processed Parts:", parts);
+
+//     let current: TFolder = root;
+    
+//     for (let i = 0; i < parts.length; i++) {
+//       const part = parts[i];
+//       const isFile = i === parts.length - 1 && part.includes(".");
+      
+//       // Find existing child
+//       const existing = current.children.find((child) => child.name === part);
+
+//       if (existing) {
+//         if (!isFile && existing.type === "folder") {
+//           current = existing as TFolder;
+//         }
+//       } else {
+//         if (isFile) {
+//           // It's a file
+//           const file: TFile = {
+//             id: path,
+//             type: "file",
+//             name: part
+//           };
+//           current.children.push(file);
+//         } else {
+//           // It's a folder
+//           const folder: TFolder = {
+//             id: path,
+//             type: "folder",
+//             name: part,
+//             children: []
+//           };
+//           current.children.push(folder);
+//           current = folder;
+//         }
+//       }
+//     }
+//   });
+
+//   return root.children;
+// };
+
+
+console.log("going to process files")
+
+
+const processFiles = (apiResponse: ApiResponse, id: string): (TFolder | TFile)[] => {
   const root: TFolder = { id: "/", type: "folder", name: "/", children: [] };
   
-  paths.forEach((path) => {
-    const allParts = path.split("/").filter(part => part.trim() !== '');
-    console.log("All Parts:", allParts);
-
-    // Validate project ID
-  
-    const parts = allParts.slice(1); // Remove project ID from parts
-    console.log("Processed Parts:", parts);
-
-    let current: TFolder = root;
-    
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-      const isFile = i === parts.length - 1 && part.includes(".");
-      
-      // Find existing child
-      const existing = current.children.find((child) => child.name === part);
-
-      if (existing) {
-        if (!isFile && existing.type === "folder") {
-          current = existing as TFolder;
-        }
-      } else {
-        if (isFile) {
-          // It's a file
-          const file: TFile = {
-            id: path,
-            type: "file",
-            name: part
-          };
-          current.children.push(file);
-        } else {
-          // It's a folder
-          const folder: TFolder = {
-            id: path,
-            type: "folder",
-            name: part,
-            children: []
-          };
-          current.children.push(folder);
-          current = folder;
-        }
-      }
-    }
+  // Process root level files
+  apiResponse.objects.forEach((object) => {
+    const file: TFile = { 
+      id: object.fullPath, 
+      type: "file", 
+      name: object.key 
+    };
+    root.children.push(file);
   });
-
+  
+  // Process folders recursively
+  const processFolder = (apiFolder: ApiFolder, parentFolder: TFolder) => {
+    // Create the folder
+    const folder: TFolder = { 
+      id: apiFolder.path, 
+      type: "folder", 
+      name: apiFolder.name, 
+      children: [] 
+    };
+    
+    parentFolder.children.push(folder);
+    
+    // Add files to this folder
+    apiFolder.files.forEach((file) => {
+      folder.children.push({
+        id: file.fullPath,
+        type: "file",
+        name: file.key
+      });
+    });
+    
+    // Process subfolders recursively
+    apiFolder.folders.forEach((subfolder) => {
+      processFolder(subfolder, folder);
+    });
+  };
+  
+  // Process top-level folders
+  apiResponse.folders.forEach((folder) => {
+    processFolder(folder, root);
+  });
+  
   return root.children;
 };
-
-
-
 export default async function CodePage({params}:{params:{id:string}}) {
   const user = await currentUser();
   const virtualboxId=params.id;
